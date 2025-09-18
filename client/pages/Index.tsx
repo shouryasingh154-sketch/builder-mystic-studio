@@ -137,6 +137,30 @@ export default function Index() {
   const [filterCategory, setFilterCategory] = useState<"All" | Report["category"]>("All");
   const [minUrgency, setMinUrgency] = useState(1);
 
+  // Admin auth state (demo-only)
+  const [adminAuthed, setAdminAuthed] = useState(false);
+  const [adminEmail, setAdminEmail] = useState("");
+  const [adminPass, setAdminPass] = useState("");
+  useEffect(() => {
+    try {
+      if (localStorage.getItem("cp_admin") === "1") setAdminAuthed(true);
+    } catch {}
+  }, []);
+  const login = (e: any) => {
+    e.preventDefault();
+    const ok = adminEmail.toLowerCase().endsWith("@city.gov") && adminPass === "admin123";
+    if (ok) {
+      localStorage.setItem("cp_admin", "1");
+      setAdminAuthed(true);
+    } else {
+      alert("Invalid credentials. Use a @city.gov email and access code admin123");
+    }
+  };
+  const logout = () => {
+    localStorage.removeItem("cp_admin");
+    setAdminAuthed(false);
+  };
+
   const filteredReports = useMemo(
     () =>
       reports.filter((r) => (filterCategory === "All" || r.category === filterCategory) && r.urgency >= minUrgency),
