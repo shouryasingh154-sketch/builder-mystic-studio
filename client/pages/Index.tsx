@@ -373,7 +373,28 @@ export default function Index() {
             </div>
           </TabsContent>
 
-          <TabsContent value="admin" className="mt-6">
+          <TabsContent value="admin" className="mt-6" id="admin">
+            {!adminAuthed ? (
+              <Card className="max-w-md mx-auto">
+                <CardHeader>
+                  <CardTitle>Admin sign-in</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <form className="space-y-4" onSubmit={login}>
+                    <div>
+                      <Label htmlFor="admin-email">Work email</Label>
+                      <Input id="admin-email" type="email" value={adminEmail} onChange={(e)=>setAdminEmail(e.target.value)} placeholder="you@city.gov" required />
+                    </div>
+                    <div>
+                      <Label htmlFor="admin-pass">Access code</Label>
+                      <Input id="admin-pass" type="password" value={adminPass} onChange={(e)=>setAdminPass(e.target.value)} placeholder="••••••••" required />
+                    </div>
+                    <Button className="w-full" type="submit">Sign in</Button>
+                    <p className="text-xs text-muted-foreground">Demo: any @city.gov email + access code <span className="font-semibold">admin123</span></p>
+                  </form>
+                </CardContent>
+              </Card>
+            ) : (
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
               <div className="lg:col-span-2">
                 <Card>
@@ -470,6 +491,7 @@ export default function Index() {
                 </Card>
               </div>
             </div>
+            )}
           </TabsContent>
         </Tabs>
       </section>
