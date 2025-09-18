@@ -289,7 +289,7 @@ export default function Index() {
                 </CardContent>
               </Card>
 
-              <Card id="admin">
+              <Card id="live-map">
                 <CardHeader>
                   <CardTitle>Live map</CardTitle>
                 </CardHeader>
