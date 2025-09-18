@@ -137,6 +137,30 @@ export default function Index() {
   const [filterCategory, setFilterCategory] = useState<"All" | Report["category"]>("All");
   const [minUrgency, setMinUrgency] = useState(1);
 
+  // User auth
+  const [userAuthed, setUserAuthed] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+  const [userName, setUserName] = useState("");
+  useEffect(() => {
+    try {
+      const e = localStorage.getItem("cp_user_email");
+      const n = localStorage.getItem("cp_user_name");
+      if (e) { setUserEmail(e); setUserName(n || ""); setUserAuthed(true); }
+    } catch {}
+  }, []);
+  const userLogin = (e: any) => {
+    e.preventDefault();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(userEmail)) { alert("Enter a valid email"); return; }
+    localStorage.setItem("cp_user_email", userEmail);
+    if (userName) localStorage.setItem("cp_user_name", userName);
+    setUserAuthed(true);
+  };
+  const userLogout = () => {
+    localStorage.removeItem("cp_user_email");
+    localStorage.removeItem("cp_user_name");
+    setUserAuthed(false);
+  };
+
   // Admin auth state (demo-only)
   const [adminAuthed, setAdminAuthed] = useState(false);
   const [adminEmail, setAdminEmail] = useState("");
@@ -209,10 +233,33 @@ export default function Index() {
           <TabsContent value="user" className="mt-6">
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <Card>
-                <CardHeader>
+                <CardHeader className="flex flex-row items-center justify-between">
                   <CardTitle>Submit a report</CardTitle>
+                  {userAuthed ? (
+                    <div className="flex items-center gap-3">
+                      <span className="hidden text-xs text-muted-foreground sm:inline">{userEmail}</span>
+                      <Button variant="ghost" onClick={userLogout}>Sign out</Button>
+                    </div>
+                  ) : null}
                 </CardHeader>
                 <CardContent className="space-y-5">
+                  {!userAuthed ? (
+                    <form className="space-y-4" onSubmit={userLogin}>
+                      <div className="grid gap-4 sm:grid-cols-2">
+                        <div>
+                          <Label htmlFor="u-name">Name</Label>
+                          <Input id="u-name" value={userName} onChange={(e)=>setUserName(e.target.value)} placeholder="Your name" />
+                        </div>
+                        <div>
+                          <Label htmlFor="u-email">Email</Label>
+                          <Input id="u-email" type="email" value={userEmail} onChange={(e)=>setUserEmail(e.target.value)} placeholder="you@example.com" required />
+                        </div>
+                      </div>
+                      <Button type="submit" className="w-full">Continue</Button>
+                      <p className="text-xs text-muted-foreground">Sign in to submit reports. No password required in this demo.</p>
+                    </form>
+                  ) : (
+                    <>
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div className="space-y-2">
                       <Label htmlFor="photo">Photo</Label>
@@ -310,6 +357,8 @@ export default function Index() {
                   <div className="flex justify-end">
                     <Button onClick={submit} disabled={!description.trim() && !photoUrl && !audioUrl && !coords}>Submit report</Button>
                   </div>
+                    </>
+                  )}
                 </CardContent>
               </Card>
 
