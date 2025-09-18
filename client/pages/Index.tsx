@@ -138,6 +138,8 @@ function departmentFor(category: Report["category"]) {
   }
 }
 
+import { useLocation } from "react-router-dom";
+
 export default function Index() {
   const [reports, setReports] = useState<Report[]>([]);
 
@@ -148,6 +150,12 @@ export default function Index() {
   const [urgency, setUrgency] = useState<number>(3);
   const { coords, get, loading: locLoading } = useGeolocation();
   const { recording, audioUrl, start, stop, reset } = useRecorder();
+
+  const location = useLocation();
+  const [tab, setTab] = useState<"user" | "admin">("user");
+  useEffect(() => {
+    setTab(location.hash === "#admin" ? "admin" : "user");
+  }, [location.hash]);
 
   // Admin filters
   const [filterCategory, setFilterCategory] = useState<
@@ -263,7 +271,7 @@ export default function Index() {
           </p>
         </div>
 
-        <Tabs defaultValue="user" className="">
+        <Tabs value={tab} onValueChange={(v: any)=>setTab(v)} className="">
           <TabsList className="grid w-full grid-cols-2 md:w-auto">
             <TabsTrigger value="user">User</TabsTrigger>
             <TabsTrigger value="admin">Admin</TabsTrigger>
