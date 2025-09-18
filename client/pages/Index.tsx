@@ -267,7 +267,7 @@ export default function Index() {
                       </Button>
                     </div>
                     <div className="md:col-span-2">
-                      <div className="h-64 overflow-hidden rounded-md">
+                      <div className="h-56 overflow-hidden rounded-md">
                         <MapContainer center={center} zoom={12} scrollWheelZoom={false} className="h-full w-full">
                           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="&copy; OpenStreetMap contributors" />
                           {coords && (
@@ -314,7 +314,7 @@ export default function Index() {
                       <Slider value={[minUrgency]} min={1} max={5} step={1} onValueChange={(v) => setMinUrgency(v[0])} />
                     </div>
                   </div>
-                  <div className="h-72 overflow-hidden rounded-md">
+                  <div className="h-60 overflow-hidden rounded-md">
                     <MapContainer center={center} zoom={12} className="h-full w-full">
                       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="&copy; OpenStreetMap contributors" />
                       {filteredReports.map((r) => (
@@ -357,7 +357,7 @@ export default function Index() {
                     <CardTitle>City issues map</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="h-[420px] overflow-hidden rounded-md">
+                    <div className="h-[360px] overflow-hidden rounded-md">
                       <MapContainer center={center} zoom={12} className="h-full w-full">
                         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="&copy; OpenStreetMap contributors" />
                         {filteredReports.map((r) => (
