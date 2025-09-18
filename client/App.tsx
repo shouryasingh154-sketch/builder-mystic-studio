@@ -20,13 +20,28 @@ const App = () => (
         <div className="min-h-screen flex flex-col">
           <header className="sticky top-0 z-40 border-b bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/60">
             <div className="container mx-auto flex h-16 items-center justify-between px-4">
-              <a href="/" className="flex items-center gap-2 font-extrabold tracking-tight">
-                <span className="inline-flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground shadow-sm">CP</span>
+              <a
+                href="/"
+                className="flex items-center gap-2 font-extrabold tracking-tight"
+              >
+                <span className="inline-flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground shadow-sm">
+                  CP
+                </span>
                 <span className="text-xl">CivicPulse</span>
               </a>
               <nav className="hidden items-center gap-6 md:flex">
-                <a href="#report" className="text-sm text-muted-foreground hover:text-foreground">Report</a>
-                <a href="#admin" className="text-sm text-muted-foreground hover:text-foreground">Admin</a>
+                <a
+                  href="#report"
+                  className="text-sm text-muted-foreground hover:text-foreground"
+                >
+                  Report
+                </a>
+                <a
+                  href="#admin"
+                  className="text-sm text-muted-foreground hover:text-foreground"
+                >
+                  Admin
+                </a>
               </nav>
             </div>
           </header>
