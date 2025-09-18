@@ -271,7 +271,7 @@ export default function Index() {
           </p>
         </div>
 
-        <Tabs value={tab} onValueChange={(v: any)=>setTab(v)} className="">
+        <Tabs value={tab} onValueChange={(v: any) => setTab(v)} className="">
           <TabsList className="grid w-full grid-cols-2 md:w-auto">
             <TabsTrigger value="user">User</TabsTrigger>
             <TabsTrigger value="admin">Admin</TabsTrigger>
