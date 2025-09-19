@@ -108,14 +108,6 @@ function useRecorder() {
   return { recording, audioUrl, start, stop, reset };
 }
 
-function AutoFlyTo({ position }: { position?: LatLngExpression }) {
-  const map = useMap();
-  useEffect(() => {
-    if (position)
-      map.flyTo(position, Math.max(map.getZoom(), 14), { duration: 0.6 });
-  }, [map, position]);
-  return null;
-}
 
 function urgencyColor(u: number) {
   if (u >= 4) return "#ef4444"; // red-500
