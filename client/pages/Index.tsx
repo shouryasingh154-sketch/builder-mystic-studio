@@ -243,9 +243,6 @@ export default function Index() {
     reset();
   };
 
-  const center: LatLngExpression = coords
-    ? [coords.lat, coords.lng]
-    : [40.73061, -73.935242];
 
   return (
     <div className="bg-gradient-to-b from-white to-secondary" id="report">
