@@ -435,28 +435,8 @@ export default function Index() {
                           </Button>
                         </div>
                         <div className="md:col-span-2">
-                          <div className="h-56 overflow-hidden rounded-md">
-                            <MapContainer
-                              center={center}
-                              zoom={12}
-                              scrollWheelZoom={false}
-                              className="h-full w-full"
-                            >
-                              <TileLayer
-                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                                attribution="&copy; OpenStreetMap contributors"
-                              />
-                              {coords && (
-                                <>
-                                  <AutoFlyTo
-                                    position={[coords.lat, coords.lng]}
-                                  />
-                                  <Marker position={[coords.lat, coords.lng]}>
-                                    <Popup>Your location</Popup>
-                                  </Marker>
-                                </>
-                              )}
-                            </MapContainer>
+                          <div className="flex h-56 items-center justify-center rounded-md border bg-secondary/40 text-sm text-muted-foreground">
+                            Map preview removed for SIH submission
                           </div>
                         </div>
                       </div>
