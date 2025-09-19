@@ -461,7 +461,7 @@ export default function Index() {
 
               <Card id="live-map">
                 <CardHeader>
-                  <CardTitle>Live map</CardTitle>
+                  <CardTitle>Overview (map removed)</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="mb-4 grid grid-cols-1 gap-3 md:grid-cols-3">
