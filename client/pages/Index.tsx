@@ -13,6 +13,8 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
+import { Phone, MessageSquare } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { formatDistanceToNow } from "date-fns";
@@ -142,6 +144,8 @@ export default function Index() {
   const [urgency, setUrgency] = useState<number>(3);
   const { coords, get, loading: locLoading } = useGeolocation();
   const { recording, audioUrl, start, stop, reset } = useRecorder();
+
+  const [feedback, setFeedback] = useState("");
 
   const location = useLocation();
   const [tab, setTab] = useState<"user" | "admin">("user");
@@ -316,6 +320,49 @@ export default function Index() {
                     </form>
                   ) : (
                     <>
+                      <div className="flex flex-wrap items-center justify-between gap-3">
+                        <div className="text-sm text-muted-foreground">
+                          Welcome{userName ? `, ${userName}` : ""}
+                        </div>
+                        <div className="flex gap-2">
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button variant="secondary">
+                                <Phone className="mr-2 h-4 w-4" /> Helpline
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                              <DialogHeader>
+                                <DialogTitle>Helpline</DialogTitle>
+                                <DialogDescription>Contact city support numbers</DialogDescription>
+                              </DialogHeader>
+                              <div className="space-y-2 text-sm">
+                                <div className="flex justify-between"><span>Emergency</span><a href="tel:112" className="text-primary">112</a></div>
+                                <div className="flex justify-between"><span>Sanitation</span><a href="tel:1916" className="text-primary">1916</a></div>
+                                <div className="flex justify-between"><span>Public Works</span><a href="tel:+1800123456" className="text-primary">+1&nbsp;800&nbsp;123&nbsp;456</a></div>
+                              </div>
+                            </DialogContent>
+                          </Dialog>
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button variant="outline">
+                                <MessageSquare className="mr-2 h-4 w-4" /> Feedback
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                              <DialogHeader>
+                                <DialogTitle>Send feedback</DialogTitle>
+                              </DialogHeader>
+                              <div className="space-y-3">
+                                <Textarea value={feedback} onChange={(e)=>setFeedback(e.target.value)} rows={4} placeholder="Share your feedback" />
+                                <div className="flex justify-end">
+                                  <Button onClick={()=>{ console.log("feedback", { feedback, userEmail, userName }); setFeedback(""); }}>Submit</Button>
+                                </div>
+                              </div>
+                            </DialogContent>
+                          </Dialog>
+                        </div>
+                      </div>
                       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div className="space-y-2">
                           <Label htmlFor="photo">Photo</Label>
