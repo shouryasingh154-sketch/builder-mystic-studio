@@ -18,6 +18,9 @@ import { Phone, MessageSquare } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { formatDistanceToNow } from "date-fns";
+import { MapContainer, TileLayer, CircleMarker, Marker, Popup, useMap } from "react-leaflet";
+import type { LatLngExpression } from "leaflet";
+import "leaflet/dist/leaflet.css";
 
 interface Report {
   id: string;
@@ -100,6 +103,14 @@ function useRecorder() {
   return { recording, audioUrl, start, stop, reset };
 }
 
+
+function AutoFlyTo({ position }: { position?: LatLngExpression }) {
+  const map = useMap();
+  useEffect(() => {
+    if (position) map.flyTo(position, Math.max(map.getZoom(), 14), { duration: 0.6 });
+  }, [map, position]);
+  return null;
+}
 
 function urgencyColor(u: number) {
   if (u >= 4) return "#ef4444"; // red-500
@@ -217,6 +228,8 @@ export default function Index() {
       ),
     [reports, filterCategory, minUrgency],
   );
+
+  const center: LatLngExpression = coords ? [coords.lat, coords.lng] : [40.73061, -73.935242];
 
   const submit = () => {
     const newReport: Report = {
@@ -472,8 +485,18 @@ export default function Index() {
                           </Button>
                         </div>
                         <div className="md:col-span-2">
-                          <div className="flex h-56 items-center justify-center rounded-md border bg-secondary/40 text-sm text-muted-foreground">
-                            Map preview removed for SIH submission
+                          <div className="h-56 overflow-hidden rounded-md">
+                            <MapContainer center={center} zoom={12} scrollWheelZoom={false} className="h-full w-full">
+                              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="&copy; OpenStreetMap contributors" />
+                              {coords && (
+                                <>
+                                  <AutoFlyTo position={[coords.lat, coords.lng]} />
+                                  <Marker position={[coords.lat, coords.lng]}>
+                                    <Popup>Your location</Popup>
+                                  </Marker>
+                                </>
+                              )}
+                            </MapContainer>
                           </div>
                         </div>
                       </div>
@@ -498,7 +521,7 @@ export default function Index() {
 
               <Card id="live-map">
                 <CardHeader>
-                  <CardTitle>Overview (map removed)</CardTitle>
+                  <CardTitle>Live map</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="mb-4 grid grid-cols-1 gap-3 md:grid-cols-3">
@@ -534,8 +557,35 @@ export default function Index() {
                       />
                     </div>
                   </div>
-                  <div className="flex h-60 items-center justify-center rounded-md border bg-secondary/40 text-sm text-muted-foreground">
-                    Map overview removed for SIH submission
+                  <div className="h-60 overflow-hidden rounded-md">
+                    <MapContainer center={center} zoom={12} className="h-full w-full">
+                      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="&copy; OpenStreetMap contributors" />
+                      {filteredReports.map((r) => (
+                        r.coords ? (
+                          <CircleMarker
+                            key={r.id}
+                            center={[r.coords.lat, r.coords.lng]}
+                            radius={8 + r.urgency}
+                            color={urgencyColor(r.urgency)}
+                            weight={2}
+                            opacity={0.8}
+                            fillOpacity={0.5}
+                          >
+                            <Popup>
+                              <div className="space-y-1">
+                                <div className="font-semibold">{r.category}</div>
+                                <div className="text-xs text-muted-foreground">Urgency {r.urgency} • {formatDistanceToNow(r.createdAt, { addSuffix: true })}</div>
+                                {r.photoUrl && (
+                                  <img src={r.photoUrl} className="mt-2 h-20 w-32 rounded object-cover" alt="Report" />
+                                )}
+                                <div className="text-sm">{r.description}</div>
+                                <div className="text-xs text-muted-foreground">Routed to {departmentFor(r.category)}</div>
+                              </div>
+                            </Popup>
+                          </CircleMarker>
+                        ) : null
+                      ))}
+                    </MapContainer>
                   </div>
                 </CardContent>
               </Card>
