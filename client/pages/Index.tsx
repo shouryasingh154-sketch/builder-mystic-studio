@@ -18,16 +18,6 @@ import { Phone, MessageSquare } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { formatDistanceToNow } from "date-fns";
-import {
-  MapContainer,
-  TileLayer,
-  CircleMarker,
-  useMap,
-  Marker,
-  Popup,
-} from "react-leaflet";
-import type { LatLngExpression } from "leaflet";
-import "leaflet/dist/leaflet.css";
 
 interface Report {
   id: string;
@@ -544,55 +534,8 @@ export default function Index() {
                       />
                     </div>
                   </div>
-                  <div className="h-60 overflow-hidden rounded-md">
-                    <MapContainer
-                      center={center}
-                      zoom={12}
-                      className="h-full w-full"
-                    >
-                      <TileLayer
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        attribution="&copy; OpenStreetMap contributors"
-                      />
-                      {filteredReports.map((r) =>
-                        r.coords ? (
-                          <CircleMarker
-                            key={r.id}
-                            center={[r.coords.lat, r.coords.lng]}
-                            radius={8 + r.urgency}
-                            color={urgencyColor(r.urgency)}
-                            weight={2}
-                            opacity={0.8}
-                            fillOpacity={0.5}
-                          >
-                            <Popup>
-                              <div className="space-y-1">
-                                <div className="font-semibold">
-                                  {r.category}
-                                </div>
-                                <div className="text-xs text-muted-foreground">
-                                  Urgency {r.urgency} •{" "}
-                                  {formatDistanceToNow(r.createdAt, {
-                                    addSuffix: true,
-                                  })}
-                                </div>
-                                {r.photoUrl && (
-                                  <img
-                                    src={r.photoUrl}
-                                    className="mt-2 h-20 w-32 rounded object-cover"
-                                    alt="Report"
-                                  />
-                                )}
-                                <div className="text-sm">{r.description}</div>
-                                <div className="text-xs text-muted-foreground">
-                                  Routed to {departmentFor(r.category)}
-                                </div>
-                              </div>
-                            </Popup>
-                          </CircleMarker>
-                        ) : null,
-                      )}
-                    </MapContainer>
+                  <div className="flex h-60 items-center justify-center rounded-md border bg-secondary/40 text-sm text-muted-foreground">
+                    Map overview removed for SIH submission
                   </div>
                 </CardContent>
               </Card>
