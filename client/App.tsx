@@ -23,9 +23,7 @@ const App = () => (
                 href="/"
                 className="flex items-center gap-2 font-extrabold tracking-tight"
               >
-                <span className="inline-flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground shadow-sm">
-                  CP
-                </span>
+                
                 <span className="text-xl">CivicPulse</span>
               </a>
               <nav className="hidden items-center gap-6 md:flex">
